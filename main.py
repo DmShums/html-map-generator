@@ -54,7 +54,7 @@ def main(lat: int, long: str, pth: str) -> None:
     :return None
     """
     data = read_file(pth)
-    # mark_layer(data, long, lat)
+    mark_layer(data, long, lat)
 
 
 def read_file(path_to_file: str) -> list:
@@ -140,6 +140,24 @@ def sort_entries(input_data: str, lon: float, lat: float) -> list:
             return float('inf')
 
     return sorted(input_data, key=loc_sort)[:10]
+
+
+def mark_layer(input_data: str, lon: float, lat: float) -> None:
+    """
+    1 layer which should be diplayed on the map
+    """
+    input_data = sort_entries(input_data,lon, lat)
+
+    count = 0
+    for elem in input_data:
+        loc = locator(elem[-1])
+        if loc is not None:
+            count += 1
+            html_map.add_child(folium.Marker(location=[loc[0], loc[1]],
+                            popup=elem[0],
+                            icon=folium.Icon()))
+        if count == 10:
+            break
 
 
 if __name__ == "__main__":
