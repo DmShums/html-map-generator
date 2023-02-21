@@ -5,7 +5,6 @@ Filming locations
 from math import radians, cos, sin, asin, sqrt
 import argparse
 import folium
-# from geopy.exc import GeocoderUnavailable
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 from geopy.exc import GeocoderTimedOut
