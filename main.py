@@ -78,6 +78,29 @@ def read_file(path_to_file: str) -> list:
 
     return out_data
 
+
+LOCATIONS = {}
+def locator(loc_path: list) -> list:
+    """
+    Module to convert locations to coords
+    >>> locator('New York')
+    (40.7127281, -74.0060152)
+    """
+    if loc_path in LOCATIONS:
+        return LOCATIONS[loc_path]
+
+    try:
+        location = geolocator.geocode(loc_path)
+    except GeocoderTimedOut:
+        return False
+
+
+    if location is not None:
+        LOCATIONS[loc_path] = (location.latitude, location.longitude)
+        return (location.latitude, location.longitude)
+
+    LOCATIONS[loc_path] = None
+
 if __name__ == "__main__":
     main(latitude, longtitude, path)
     html_map.save('Map_Custom_Popup.html')
