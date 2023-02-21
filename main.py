@@ -101,6 +101,24 @@ def locator(loc_path: list) -> list:
 
     LOCATIONS[loc_path] = None
 
+
+def haversine(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
+    """
+    Calculate the great circle distance in kilometers between two points 
+    on the earth (specified in decimal degrees)
+
+    >>> haversine(-74.0060152, 40.7127281, 24.0315921, 49.841952)
+    7174.566532753805
+    """
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    add = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    cen = 2 * asin(sqrt(add))
+    rad = 6371
+    return cen * rad
+
 if __name__ == "__main__":
     main(latitude, longtitude, path)
     html_map.save('Map_Custom_Popup.html')
