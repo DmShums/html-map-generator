@@ -119,6 +119,29 @@ def haversine(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
     rad = 6371
     return cen * rad
 
+
+def sort_entries(input_data: str, lon: float, lat: float) -> list:
+    """
+    Function to sort entries
+    """
+    for ind, elem in enumerate(input_data):
+        if '(' in elem[-1] or ')' in elem[-1]:
+            input_data[ind].pop(-1)
+
+    def loc_sort(data):
+        loc = locator(data[-1])
+
+        if loc is False:
+            return float('inf')
+
+        if loc is not None:
+            return haversine(loc[1], loc[0], float(lon), float(lat))
+        else:
+            return float('inf')
+
+    return sorted(input_data, key=loc_sort)[:10]
+
+
 if __name__ == "__main__":
     main(latitude, longtitude, path)
     html_map.save('Map_Custom_Popup.html')
